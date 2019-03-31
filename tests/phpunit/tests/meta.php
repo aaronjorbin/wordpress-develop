@@ -416,6 +416,20 @@ class Tests_Meta extends WP_UnitTestCase {
 		$this->assertSame( array( $value ), $found['foo'] );
 	}
 
+	/**
+	 * @ticket 46660
+	 */
+	public function test_update_metadata_for_nonexistant_meta() {
+		$data  = array(
+			array( 1, 2 ),
+			array( 3, 4 ),
+		);
+		update_metadata( 'user', $this->author->ID, 'non_existant_foo', $data );
+
+		$found = get_metadata( 'user', $this->author->ID, 'non_existant_foo' );
+		$this->assertSame( $found, $data );
+	}
+
 	/** Helpers */
 
 	public function updated_meta( $meta_id ) {
